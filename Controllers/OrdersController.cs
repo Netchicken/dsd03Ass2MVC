@@ -20,8 +20,8 @@ namespace dsd03Ass2MVC.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Order.Include(o => o.Customer).Include(o => o.Staff).Include(o => o.Stock);
-            return View(await applicationDbContext.ToListAsync());
+            var orders = _context.Order.Include(o => o.Customer).Include(o => o.Staff).Include(o => o.Stock);
+            return View(await orders.ToListAsync());
         }
 
         // GET: Orders/Details/5

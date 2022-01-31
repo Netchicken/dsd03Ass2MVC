@@ -1,4 +1,8 @@
-﻿@{
+﻿@using System.Collections
+@using dsd03Ass2MVC.DTO
+@model List<dsd03Ass2MVC.DTO.TopSales>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -7,4 +11,35 @@
     <p> <a asp-controller="Customers" asp-action="Index">Enter a Customer </a> </p>
      <p> <a asp-controller="Stocks" asp-action="Index">Enter some Stock </a> </p>
       <p><a asp-controller="Orders" asp-action="Index">Make a Sale </a></p>
+
 </div>
+      <h2> 15 most expensive Products sold</h2>
+<table>
+   @foreach (var item in Model )  {
+        <tr>
+            <td>
+                @item.ProductName  --- @item.Price  
+                
+            </td>
+      </tr>
+   }
+      
+</table>
+
+ <h2>Count of Products sold</h2>
+<table>
+   @foreach (var item in (IEnumerable<MostSold>)ViewData["MostSold"]  )  {
+        <tr>
+            <td>
+                @item.ProductName  --- @item.Count  
+                
+            </td>
+      </tr>
+   }
+      
+</table>
+
+
+
+
+@*</div>*@
