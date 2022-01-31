@@ -1,13 +1,10 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using dsd03Ass2MVC.Data;
+using dsd03Ass2MVC.Models;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using dsd03Ass2MVC.Data;
-using dsd03Ass2MVC.Models;
 
 namespace dsd03Ass2MVC.Controllers
 {
@@ -45,15 +42,17 @@ namespace dsd03Ass2MVC.Controllers
                 return NotFound();
             }
 
+
+
             return View(order);
         }
 
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId");
-            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId");
-            ViewData["StockId"] = new SelectList(_context.Set<Stock>(), "StockId", "StockId");
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "Name");
+            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "Name");
+            ViewData["StockId"] = new SelectList(_context.Set<Stock>(), "StockId", "ProductName");
             return View();
         }
 
@@ -71,9 +70,11 @@ namespace dsd03Ass2MVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", order.CustomerId);
-            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId", order.StaffId);
-            ViewData["StockId"] = new SelectList(_context.Set<Stock>(), "StockId", "StockId", order.StockId);
+            SetSelectedLists(order);
+
+            //ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "Name", order.CustomerId);
+            //ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "Name", order.StaffId);
+            //ViewData["StockId"] = new SelectList(_context.Set<Stock>(), "StockId", "ProductName", order.StockId);
             return View(order);
         }
 
@@ -90,9 +91,11 @@ namespace dsd03Ass2MVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", order.CustomerId);
-            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId", order.StaffId);
-            ViewData["StockId"] = new SelectList(_context.Set<Stock>(), "StockId", "StockId", order.StockId);
+
+            SetSelectedLists(order);
+            //ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", order.CustomerId);
+            //ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "Name", order.StaffId);
+            //ViewData["StockId"] = new SelectList(_context.Set<Stock>(), "StockId", "ProductName", order.StockId);
             return View(order);
         }
 
@@ -128,9 +131,12 @@ namespace dsd03Ass2MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", order.CustomerId);
-            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId", order.StaffId);
-            ViewData["StockId"] = new SelectList(_context.Set<Stock>(), "StockId", "StockId", order.StockId);
+
+            SetSelectedLists(order);
+
+            //ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", order.CustomerId);
+            //ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId", order.StaffId);
+            //ViewData["StockId"] = new SelectList(_context.Set<Stock>(), "StockId", "StockId", order.StockId);
             return View(order);
         }
 
@@ -170,5 +176,19 @@ namespace dsd03Ass2MVC.Controllers
         {
             return _context.Order.Any(e => e.OrderId == id);
         }
+
+        /// <summary>
+        /// Making the ViewData into one method and calling it
+        /// </summary>
+        /// <param name="order"></param>
+        private void SetSelectedLists(Order order)
+        {
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "Name", order.CustomerId);
+            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "Name", order.StaffId);
+            ViewData["StockId"] = new SelectList(_context.Set<Stock>(), "StockId", "ProductName", order.StockId);
+
+
+        }
+
     }
 }

@@ -40,13 +40,13 @@
                 @Html.DisplayFor(modelItem => item.ShippedDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerId)
+                @Html.DisplayFor(modelItem => item.Customer.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Stock.StockId)
+                @Html.DisplayFor(modelItem => item.Stock.ProductName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Staff.StaffId)
+                @Html.DisplayFor(modelItem => item.Staff.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
