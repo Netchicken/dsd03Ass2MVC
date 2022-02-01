@@ -1,8 +1,8 @@
 ﻿namespace dsd03Ass2MVC.DTO
 {
-    public class MostSold
+    public class CustomersAndPurchasesDTO
     {
+        public string? Name { get; set; }
         public string? ProductName { get; set; }
-        public int? Count { get; set; }
     }
 }

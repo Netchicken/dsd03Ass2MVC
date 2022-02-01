@@ -22,26 +22,29 @@ namespace dsd03Ass2MVC.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
-            var allSales = _context.Order.Include(o => o.Stock).OrderByDescending(o => o.Stock.Price).Take(15);
+            //get all the sales and take the top 15 most expensive
+            var allSalesTop15 = _context.Order.Include(o => o.Stock).OrderByDescending(o => o.Stock.Price).Take(15);
 
 
-            List<TopSales> topStock = new List<TopSales>();
+            List<TopSalesDTO> top15Stock = new List<TopSalesDTO>();
 
-            foreach (var item in allSales)
+            foreach (var item in allSalesTop15)
             {
-                TopSales sales = new TopSales();
+                TopSalesDTO sales = new TopSalesDTO();
                 sales.ProductName = item.Stock.ProductName;
                 sales.ProductDescription = item.Stock.ProductDescription;
                 sales.ProductType = item.Stock.ProductType;
                 sales.Price = item.Stock.Price;
-                topStock.Add(sales);
+                top15Stock.Add(sales);
             }
 
+            //========================================
 
-            List<MostSold> mostSold = new List<MostSold>();
 
-            mostSold.AddRange((IEnumerable<MostSold>)topStock.GroupBy(n => n.ProductName)
-                                     .Select(n => new MostSold
+            List<MostSoldDTO> mostStockSoldTop15 = new List<MostSoldDTO>();
+
+            mostStockSoldTop15.AddRange((IEnumerable<MostSoldDTO>)top15Stock.GroupBy(n => n.ProductName)
+                                     .Select(n => new MostSoldDTO
                                      {
                                          ProductName = n.Key,
                                          Count = n.Count()
@@ -49,10 +52,70 @@ namespace dsd03Ass2MVC.Controllers
                                      .OrderByDescending(n => n.Count)
                                      );
 
-            ViewData["MostSold"] = mostSold.Take(5);
+            ViewData["mostStockSoldTop15"] = mostStockSoldTop15.Take(5);
 
-            // ViewData["TopSales"] = topStock;
-            return View(topStock);
+
+
+            //11.	Create a list of stock items names that have NOT been sold.
+
+            //Get the names of all the stock sold
+            var StockSold = _context.Order.Include(o => o.Stock).Select(s => s.Stock.ProductName).ToList();
+            //Get the names of all the stock
+            var AllStock = _context.Stock.Select(s => s.ProductName).ToList();
+
+            List<string> StockNotSold = new List<string>();
+
+            //For each of the Stock we have, if its not in the StockSold, then add it to StockNotSold
+            foreach (var s in AllStock)
+            {
+                if (!StockSold.Contains(s))
+                {
+                    StockNotSold.Add(s);
+                }
+            }
+
+            ViewData["StockNotSold"] = StockNotSold.ToList();
+
+
+            //12.	What is the name of the staff member, who has sold the least $ value of stock?
+
+            //Get the names of all the stock sold.Include(o => o.Stock)
+            var StaffSoldCheapestStock = _context.Order.OrderBy(o => o.Stock.Price).Select(s => s.Staff.Name).Take(1).FirstOrDefault();
+
+
+            ViewData["StaffWhoSoldCheapestStock"] = StaffSoldCheapestStock;
+
+
+            //   13.Create a list of customers names and the products they have purchased, grouped by Customer.
+
+
+            List<CustomersAndPurchasesDTO> CustomersAndStock = new List<CustomersAndPurchasesDTO>();
+
+            var customersAndStock = _context.Order.OrderBy(c => c.CustomerId).Select(s => new CustomersAndPurchasesDTO
+            {
+                Name = s.Customer.Name,
+                ProductName = s.Stock.ProductName
+            }).ToList();
+
+
+            CustomersAndStock.AddRange(customersAndStock);
+
+            ViewData["CustomersAndPurchases"] = CustomersAndStock;
+
+            //14.	What is the name of the customer who has bought the greatest quantity of products?
+
+            var CustomerBoughtMostItems = _context.Order.GroupBy(c => c.Customer.Name).Select(n => new MostSoldDTO
+            {
+                ProductName = n.Key,
+                Count = n.Count()
+            })
+                                     .OrderByDescending(n => n.Count).Take(1);
+
+            ViewData["CustomerBoughtMostItems"] = CustomerBoughtMostItems;
+
+            //======================================================
+
+            return View(top15Stock);
         }
 
         public IActionResult Privacy()

@@ -1,6 +1,6 @@
 ﻿@using System.Collections
 @using dsd03Ass2MVC.DTO
-@model List<dsd03Ass2MVC.DTO.TopSales>
+@model List<dsd03Ass2MVC.DTO.TopSalesDTO>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -28,7 +28,7 @@
 
  <h2>Count of Products sold</h2>
 <table>
-   @foreach (var item in (IEnumerable<MostSold>)ViewData["MostSold"]  )  {
+   @foreach (var item in (IEnumerable<MostSoldDTO>)ViewData["mostStockSoldTop15"]  )  {
         <tr>
             <td>
                 @item.ProductName  --- @item.Count  
@@ -39,7 +39,46 @@
       
 </table>
 
+<h2>Q11 Stock Not sold</h2>
+<table>
+   @foreach (var item in (IEnumerable<string>)ViewData["StockNotSold"]  )  {
+        <tr>
+            <td>
+                @item
+                
+            </td>
+      </tr>
+   }
+      
+</table>
+<h2>Q12 Who Sold the Cheapest Stock?</h2>
+<p>@ViewData["StaffWhoSoldCheapestStock"]</p>
 
 
+<h2> 13.Create a list of customers names and the products they have purchased, grouped by Customer.</h2>
+<table>
+   @foreach (var item in (IEnumerable<CustomersAndPurchasesDTO>)ViewData["CustomersAndPurchases"]  )  {
+        <tr>
+            <td>
+                @item.Name ... @item.ProductName
+                
+            </td>
+      </tr>
+   }
+      
+</table>
 
+
+<h2> 14.	What is the name of the customer who has bought the greatest quantity of products?</h2>
+<table>
+   @foreach (var item in (IEnumerable<MostSoldDTO>)ViewData["CustomerBoughtMostItems"]  )  {
+        <tr>
+            <td>
+                @item.Count ... @item.ProductName
+                
+            </td>
+      </tr>
+   }
+      
+</table>
 @*</div>*@
