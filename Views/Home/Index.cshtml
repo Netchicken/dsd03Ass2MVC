@@ -81,4 +81,17 @@
    }
       
 </table>
+
+<h2> 15.	What is the name of the customer who has spent the most money at the Bike Shop?</h2>
+<table>
+   @foreach (var item in (IEnumerable<CustomerWhoSpentMostDTO>)ViewData["CustomerBoughtMostItems"]  )  {
+        <tr>
+            <td>
+                @item.Cost ... @item.Name
+                
+            </td>
+      </tr>
+   }
+      
+</table>
 @*</div>*@

@@ -113,8 +113,23 @@ namespace dsd03Ass2MVC.Controllers
 
             ViewData["CustomerBoughtMostItems"] = CustomerBoughtMostItems;
 
+
+
+            //15.	What is the name of the customer who has spent the most money at the Bike Shop?
+
+
+            var CustomerWhoSpentMostMoney = _context.Order.GroupBy(c => c.Customer.Name).Select(n => new CustomerWhoSpentMostDTO
+            {
+                Name = n.Key,
+                Cost = n.Sum(x => x.Stock.Price)
+            }).OrderByDescending(c => c.Cost).Take(1);
+
+            ViewData["CustomerBoughtMostItems"] = CustomerBoughtMostItems;
+
+
             //======================================================
 
+            //from the vry first question
             return View(top15Stock);
         }
 
