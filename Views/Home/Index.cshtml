@@ -1,6 +1,6 @@
 ﻿@using System.Collections
 @using dsd03Ass2MVC.DTO
-@*@model List<dsd03Ass2MVC.DTO.TopSalesDTO>*@
+
 
 @{
     ViewData["Title"] = "Home Page";
@@ -14,7 +14,7 @@
 
 </div>
    
-
+<h1>Assessment Answers - there may be slight differences</h1>
 <h2>Q11 Stock Not sold</h2>
 <table>
    @foreach (var item in (IEnumerable<string>)ViewData["StockNotSold"]  )  {
@@ -82,7 +82,7 @@
             </td>
       </tr>
    }
-
+   </table>
    <h2>17.	List all the stock that have Saddle in the Name or Description.</h2>
 <table>
    @foreach (var item in (IEnumerable<Stock>)ViewData["SaddleStock"] )  {
@@ -93,7 +93,7 @@
             </td>
       </tr>
    }
-
+   </table>
 
 
 
