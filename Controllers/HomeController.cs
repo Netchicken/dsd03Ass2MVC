@@ -23,36 +23,36 @@ namespace dsd03Ass2MVC.Controllers
         public async Task<IActionResult> IndexAsync()
         {
             //get all the sales and take the top 15 most expensive
-            var allSalesTop15 = _context.Order.Include(o => o.Stock).OrderByDescending(o => o.Stock.Price).Take(15);
+            //var allSalesTop15 = _context.Order.Include(o => o.Stock).OrderByDescending(o => o.Stock.Price).Take(15);
 
 
-            List<TopSalesDTO> top15Stock = new List<TopSalesDTO>();
+            //List<TopSalesDTO> top15Stock = new List<TopSalesDTO>();
 
-            foreach (var item in allSalesTop15)
-            {
-                TopSalesDTO sales = new TopSalesDTO();
-                sales.ProductName = item.Stock.ProductName;
-                sales.ProductDescription = item.Stock.ProductDescription;
-                sales.ProductType = item.Stock.ProductType;
-                sales.Price = item.Stock.Price;
-                top15Stock.Add(sales);
-            }
+            //foreach (var item in allSalesTop15)
+            //{
+            //    TopSalesDTO sales = new TopSalesDTO();
+            //    sales.ProductName = item.Stock.ProductName;
+            //    sales.ProductDescription = item.Stock.ProductDescription;
+            //    sales.ProductType = item.Stock.ProductType;
+            //    sales.Price = item.Stock.Price;
+            //    top15Stock.Add(sales);
+            //}
 
             //========================================
 
 
-            List<MostSoldDTO> mostStockSoldTop15 = new List<MostSoldDTO>();
+            //List<MostSoldDTO> mostStockSoldTop15 = new List<MostSoldDTO>();
 
-            mostStockSoldTop15.AddRange((IEnumerable<MostSoldDTO>)top15Stock.GroupBy(n => n.ProductName)
-                                     .Select(n => new MostSoldDTO
-                                     {
-                                         ProductName = n.Key,
-                                         Count = n.Count()
-                                     })
-                                     .OrderByDescending(n => n.Count)
-                                     );
+            //mostStockSoldTop15.AddRange((IEnumerable<MostSoldDTO>)top15Stock.GroupBy(n => n.ProductName)
+            //                         .Select(n => new MostSoldDTO
+            //                         {
+            //                             ProductName = n.Key,
+            //                             Count = n.Count()
+            //                         })
+            //                         .OrderByDescending(n => n.Count)
+            //                         );
 
-            ViewData["mostStockSoldTop15"] = mostStockSoldTop15.Take(5);
+            //ViewData["mostStockSoldTop15"] = mostStockSoldTop15.Take(5);
 
 
 
@@ -124,13 +124,32 @@ namespace dsd03Ass2MVC.Controllers
                 Cost = n.Sum(x => x.Stock.Price)
             }).OrderByDescending(c => c.Cost).Take(1);
 
-            ViewData["CustomerBoughtMostItems"] = CustomerBoughtMostItems;
+            ViewData["CustomerWhoSpentMost"] = CustomerWhoSpentMostMoney;
 
 
+            //16.	Create a list of the 5 dearest stock items with their names and prices, from most expensive to least expensive.
+
+            var allSalesTop5 = _context.Order.Select(n => new TopSalesDTO
+            {
+                ProductName = n.Stock.ProductName,
+                ProductDescription = n.Stock.ProductDescription,
+                ProductType = n.Stock.ProductType,
+                Price = n.Stock.Price
+            }).Distinct().OrderByDescending(o => o.Price).Take(5);
+
+            ViewData["AllSalesTop5"] = allSalesTop5;
+
+
+
+            // 17.List all the stock that have Saddle in the Name or Description
+
+            var SaddleStock = _context.Stock.Where(s => s.ProductName.Contains("saddle") || s.ProductDescription.Contains("saddle"));
+
+            ViewData["SaddleStock"] = SaddleStock;
             //======================================================
 
-            //from the vry first question
-            return View(top15Stock);
+
+            return View();
         }
 
         public IActionResult Privacy()
