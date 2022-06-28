@@ -22,6 +22,29 @@ namespace dsd03Ass2MVC.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
+
+          
+
+            //======================================================
+
+
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {  //which staff member sold the most stock?
+
+            //var StaffSoldMostStock = _context.Order.OrderByDescending(o => o.Staff.).Select(s => s.Staff.Name).Take(1).FirstOrDefault();
+            //ViewData["StaffWhoSoldMostStock"] = StaffSoldMostStock;
+
+            ////what is the most popular stock?
+
+            //var MostPopularStock = _context.Order.OrderByDescending(o => o.Stock.Price).Select(s => s.Staff.Name).Take(1).FirstOrDefault();
+
+
+
+
+
             //get all the sales and take the top 15 most expensive
             //var allSalesTop15 = _context.Order.Include(o => o.Stock).OrderByDescending(o => o.Stock.Price).Take(15);
 
@@ -79,16 +102,18 @@ namespace dsd03Ass2MVC.Controllers
 
             //12.	What is the name of the staff member, who has sold the least $ value of stock?
 
-            //Get the names of all the stock sold.Include(o => o.Stock)
+            //Get the names of all the stock sold
             var StaffSoldCheapestStock = _context.Order.OrderBy(o => o.Stock.Price).Select(s => s.Staff.Name).Take(1).FirstOrDefault();
 
 
             ViewData["StaffWhoSoldCheapestStock"] = StaffSoldCheapestStock;
 
 
+
+
+
+
             //   13.Create a list of customers names and the products they have purchased, grouped by Customer.
-
-
             List<CustomersAndPurchasesDTO> CustomersAndStock = new List<CustomersAndPurchasesDTO>();
 
             var customersAndStock = _context.Order.OrderBy(c => c.CustomerId).Select(s => new CustomersAndPurchasesDTO
@@ -97,27 +122,21 @@ namespace dsd03Ass2MVC.Controllers
                 ProductName = s.Stock.ProductName
             }).ToList();
 
-
             CustomersAndStock.AddRange(customersAndStock);
-
             ViewData["CustomersAndPurchases"] = CustomersAndStock;
 
             //14.	What is the name of the customer who has bought the greatest quantity of products?
-
             var CustomerBoughtMostItems = _context.Order.GroupBy(c => c.Customer.Name).Select(n => new MostSoldDTO
             {
                 ProductName = n.Key,
                 Count = n.Count()
-            })
-                                     .OrderByDescending(n => n.Count).Take(1);
+            }).OrderByDescending(n => n.Count).Take(1);
 
             ViewData["CustomerBoughtMostItems"] = CustomerBoughtMostItems;
 
 
 
             //15.	What is the name of the customer who has spent the most money at the Bike Shop?
-
-
             var CustomerWhoSpentMostMoney = _context.Order.GroupBy(c => c.Customer.Name).Select(n => new CustomerWhoSpentMostDTO
             {
                 Name = n.Key,
@@ -127,8 +146,7 @@ namespace dsd03Ass2MVC.Controllers
             ViewData["CustomerWhoSpentMost"] = CustomerWhoSpentMostMoney;
 
 
-            //16.	Create a list of the 5 dearest stock items with their names and prices, from most expensive to least expensive.
-
+            //16.Create a list of the 5 dearest stock items with their names and prices, from most expensive to least expensive.
             var allSalesTop5 = _context.Order.Select(n => new TopSalesDTO
             {
                 ProductName = n.Stock.ProductName,
@@ -142,18 +160,10 @@ namespace dsd03Ass2MVC.Controllers
 
 
             // 17.List all the stock that have Saddle in the Name or Description
-
             var SaddleStock = _context.Stock.Where(s => s.ProductName.Contains("saddle") || s.ProductDescription.Contains("saddle"));
 
             ViewData["SaddleStock"] = SaddleStock;
-            //======================================================
 
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 
