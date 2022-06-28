@@ -40,3 +40,8 @@ body {
 .table a {
     color: white !important;
 }
+
+.p a {
+    color: white !important;
+    text-decoration: underline;
+}

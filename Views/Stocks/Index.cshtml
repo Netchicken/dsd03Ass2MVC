@@ -4,22 +4,21 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Stock Datatable</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h3>
+    <a asp-action="Create" style="color:white;">Enter New Stock</a> </h3>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+               Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductDescription)
+              Description
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductType)
+               Type
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)

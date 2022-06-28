@@ -4,19 +4,19 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Order Datatable</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h3>
+    <a asp-action="Create" style="color:white;">Create a New Order</a>
+</h3>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.OrderDate)
+              Order Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ShippedDate)
+               Shipped Date
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Customer)

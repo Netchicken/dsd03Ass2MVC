@@ -41,17 +41,20 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Orders" asp-action="Index">Make a Sale</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Staffs" asp-action="Index">Staff</a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
-    <header class="masthead d-flex align-items-center">
+    <div class="masthead d-flex align-items-center">
         <div class="container px-1 px-lg-3 text-center">
             <h1 class="mb-1">The Awesome BikeShop Database</h1>
           </div>
-    </header>
+    </div>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

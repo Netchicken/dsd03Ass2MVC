@@ -23,7 +23,7 @@ namespace dsd03Ass2MVC.Controllers
         public async Task<IActionResult> IndexAsync()
         {
 
-          
+
 
             //======================================================
 
@@ -34,8 +34,13 @@ namespace dsd03Ass2MVC.Controllers
         public IActionResult Privacy()
         {  //which staff member sold the most stock?
 
-            //var StaffSoldMostStock = _context.Order.OrderByDescending(o => o.Staff.).Select(s => s.Staff.Name).Take(1).FirstOrDefault();
-            //ViewData["StaffWhoSoldMostStock"] = StaffSoldMostStock;
+            var StaffSoldMostStock = _context.Order.GroupBy(o => o.Staff.Name).Select(n => new MostSoldDTO
+            {
+                ProductName = n.Key,
+                Count = n.Count()
+            }).OrderByDescending(n => n.Count).Take(1);
+
+            ViewData["StaffWhoSoldMostStock"] = StaffSoldMostStock;
 
             ////what is the most popular stock?
 
